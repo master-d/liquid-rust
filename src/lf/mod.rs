@@ -3,30 +3,32 @@ use liquidfun::box2d::common::math::*;
 use liquidfun::box2d::dynamics::body::*;
 use liquidfun::box2d::dynamics::fixture::*;
 use liquidfun::box2d::dynamics::world::*;
+use liquidfun::box2d::collision::shapes::shape;
 
-mod coords;
+use sdl2::Sdl;
+
 use coords::Coords;
 
 pub struct BoxDef {
-    pos: (f32, f32),
-    size: f32,
-    density: f32, 
-    friction: f32,
-    restitution: f32
+    pub pos: (f32, f32),
+    pub size: f32,
+    pub density: f32, 
+    pub friction: f32,
+    pub restitution: f32
 }
 impl Default for BoxDef {
     fn default() -> BoxDef {
         BoxDef {
-            pos: (0.0,0.0), size: 10.0, density: 1.0, friction: 0.3, restitution: 1.0
+            pos: (0.0,0.0), size: 10.0, density: 1.0, friction: 0.3, restitution: 0.2
         }
     }
 }
 pub struct LFWorld {
-    world: World
+    pub world: World
 }
-// 10px for 1 meter
+
 impl LFWorld {
-    pub fn new(&resolution: &(u16,u16) ) -> LFWorld {
+    pub fn new(&resolution: &(u32,u32) ) -> LFWorld {
         let (w,h) = resolution;
         let gravity = Vec2::new(0.0,-10.0);
         let mut world = World::new(&gravity);
@@ -37,7 +39,7 @@ impl LFWorld {
         // Define the ground box shape.
         let mut ground_box = PolygonShape::new();
         // The extents are the half-widths of the box.
-        ground_box.set_as_box(resolution.0/2, 0.5);
+        ground_box.set_as_box(w as f32/2.0, 0.1);
         // Add the ground fixture to the ground body.
         ground_body.create_fixture_from_shape(&ground_box, 0.0);
 
@@ -45,7 +47,7 @@ impl LFWorld {
             world: world
         }
     }
-    pub fn createBox(&mut self, bdef: &BoxDef) -> Body {
+    pub fn create_box(&mut self, bdef: &BoxDef) -> Body {
         // Define the dynamic body. We set its position and call the body factory.
         let mut body_def = BodyDef::default();
         body_def.body_type = BodyType::DynamicBody;
@@ -67,6 +69,21 @@ impl LFWorld {
         body.create_fixture(&fixture_def);
         body
     }
+    pub fn draw_body(&mut self, body: &Body, ctx: &mut Sdl) {
+        match body.get_fixture_list() {
+            Some(fixture) => { 
+                self.world.
+                match fixture.get_type() {
+                    shape::Type::Polygon => {
+                        let shape = fixture.get_shape();
+                        
+                    }
+                    _ => {}
+                }
+            }
+            None => {}
+        }
+    }
     pub fn test(&mut self) {
 
 	// Prepare for simulation. Typically we use a time step of 1/60 of a
@@ -75,7 +92,7 @@ impl LFWorld {
 	let time_step = 1.0 / 60.0;
 	let velocity_iterations = 6;
 	let position_iterations = 2;
-    let body = self.createBox(&BoxDef::default());
+    let body = self.create_box(&BoxDef::default());
 	// This is our little game loop.
 	for _ in 0..60 {
 

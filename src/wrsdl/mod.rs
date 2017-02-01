@@ -50,39 +50,19 @@ pub struct WrSdl<'window> {
     pub events: Events
 }
 impl<'window> WrSdl<'window> {
-    pub fn new() -> WrSdl<'window> {
-    let ctx = ::sdl2::init().unwrap();
-    let video_subsystem = ctx.video().unwrap();
-    let window = video_subsystem.window("sdl2", 640, 480).position_centered().build().unwrap();
-    let mut renderer = window.renderer().accelerated().build().unwrap();
-    let events = Events::new(ctx.event_pump().unwrap());
+    pub fn new(resolution: (u32,u32)) -> WrSdl<'window> {
+        let ctx = ::sdl2::init().unwrap();
+        let video_subsystem = ctx.video().unwrap();
+        let window = video_subsystem.window("sdl2", resolution.0, resolution.1).position_centered().build().unwrap();
+        let mut renderer = window.renderer().accelerated().build().unwrap();
+        let events = Events::new(ctx.event_pump().unwrap());
 
-    WrSdl {
-        ctx: ctx,
-        renderer: renderer,
-        events: events
-    }
+        WrSdl {
+            ctx: ctx,
+            renderer: renderer,
+            events: events
+        }
     }
     
-    pub fn clear(&mut self,color: Color) {
-        self.renderer.set_draw_color(color);
-        self.renderer.clear();
-    }
-    pub fn present(&mut self) {
-        self.renderer.present();
-    }
-    pub fn draw_dam(&mut self,numblocks: u8) {
-       for b in 1..numblocks {
-            
-       }
-    }
-    pub fn draw_box(&mut self, color: Color, fill: bool) {
-        let rect = Rect::new(500,15,10,10);
-        self.renderer.set_draw_color(color);
-        match fill {
-            true => self.renderer.fill_rect(rect),
-            false => self.renderer.draw_rect(rect)
-        };
-    }
 }
 
