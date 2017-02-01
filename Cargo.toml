@@ -1,0 +1,8 @@
+[package]
+name = "test-rust"
+version = "0.1.0"
+authors = ["yi <goodeveningthisisrobrichards@gmail.com>"]
+
+[dependencies]
+sdl2 = { version = "~0.28.0" }
+liquidfun = "*"
