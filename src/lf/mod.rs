@@ -3,11 +3,12 @@ use liquidfun::box2d::common::math::*;
 use liquidfun::box2d::dynamics::body::*;
 use liquidfun::box2d::dynamics::fixture::*;
 use liquidfun::box2d::dynamics::world::*;
-use liquidfun::box2d::collision::shapes::shape;
+use liquidfun::box2d::collision::shapes;
 
-use sdl2::Sdl;
+use sdl2::rect::{Rect,Point};
 
 use coords::Coords;
+use wrsdl::WrSdl;
 
 pub struct BoxDef {
     pub pos: (f32, f32),
@@ -69,20 +70,25 @@ impl LFWorld {
         body.create_fixture(&fixture_def);
         body
     }
-    pub fn draw_body(&mut self, body: &Body, ctx: &mut Sdl) {
+    pub fn draw_body(&mut self, body: &Body, ctx: &mut WrSdl) {
+        let mut xyvec: Vec<Coords<f32>> = Vec::new();
         match body.get_fixture_list() {
             Some(fixture) => { 
-                self.world.
                 match fixture.get_type() {
-                    shape::Type::Polygon => {
-                        let shape = fixture.get_shape();
-                        
-                    }
+                    shapes::shape::Type::Polygon =>  {
+                        //let *shape = ::std::mem::transmute_copy::<shapes::shape::B2Shape, shapes::polygon_shape::PolygonShape>(fixture.get_shape());
+                        let shape = shapes::polygon_shape::from_shape(fixture.get_shape());  
+                        for x in 0..shape.get_vertex_count() {
+                            xyvec.push(Coords::new(shape.get_vertex(x)));
+                        }
+                    },
                     _ => {}
                 }
             }
             None => {}
         }
+        
+        ctx.renderer.draw_rect(xyvec.to_rect());
     }
     pub fn test(&mut self) {
 

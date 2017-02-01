@@ -1,4 +1,5 @@
 use liquidfun::box2d::common::math::Vec2;
+use sdl2::rect::Rect;
 
 // Coordinate struct used to convert between u32 pixels and box2d f32 meters. 
 // One meter == 10px
@@ -32,5 +33,14 @@ impl Coords<u32> {
       x: x as f32,
       y: y as f32
     }
+  }
+}
+
+trait ConvertToRect {
+  fn to_rect(&self) -> Rect;
+}
+impl ConvertToRect for Vec<Coords<f32>> {
+  fn to_rect(&self) -> Rect {
+    Rect::from((50,50,10,10));
   }
 }
