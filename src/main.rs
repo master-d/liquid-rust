@@ -35,13 +35,17 @@ fn main() {
         lfw.world.step(time_step, velocity_iterations, position_iterations);
         thread::sleep(slp_millis);
         // Now print the position and angle of the body.
+        /*
         let position = Coords::new(body.get_position());
         let angle = body.get_angle();
         println!("{:?} angle: {:?}", position.convert(), angle);
+        */
+        // clear the screen
+        ctx.renderer.set_draw_color(Color::RGBA(0,0,0,50));
+        ctx.renderer.clear();
+        lfw.draw_body(&body, &mut ctx);
+        ctx.renderer.present();
         // draw the box body in sdl
         
-        //ctx.clear(Color::RGBA(0,0,0,50));
-        //ctx.draw_box(Color::RGB(200,200,50),false);
-        //ctx.renderer.present();
     }
 }

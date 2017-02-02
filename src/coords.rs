@@ -1,13 +1,13 @@
 use liquidfun::box2d::common::math::Vec2;
-use sdl2::rect::Rect;
-
+use sdl2::rect::{Rect,Point};
+use std::num;
 // Coordinate struct used to convert between u32 pixels and box2d f32 meters. 
 // One meter == 10px
 // box2d (0.0,0.0) -> 
 #[derive(Debug)]
 pub struct Coords<T> {
-  x: T,
-  y: T
+  pub x: T,
+  pub y: T
 }
 impl Coords<f32> {
   pub fn new(v: &Vec2) -> Coords<f32> {
@@ -24,6 +24,13 @@ impl Coords<f32> {
       y: y as u32
     }
   }
+  pub fn get_sdl_point(&self, offset: &Coords<f32>) -> Point {
+    let self_pixels = self.convert();
+    let offset_pixels = offset.convert();
+    let x = offset_pixels.x + self_pixels.x;
+    let y = offset_pixels.y + self_pixels.y;
+    Point::new(x as i32,y as i32)
+  }
 }
 impl Coords<u32> {
   pub fn convert(&self) -> Coords<f32> {
@@ -36,11 +43,12 @@ impl Coords<u32> {
   }
 }
 
-trait ConvertToRect {
+pub trait ConvertToRect {
   fn to_rect(&self) -> Rect;
 }
 impl ConvertToRect for Vec<Coords<f32>> {
   fn to_rect(&self) -> Rect {
-    Rect::from((50,50,10,10));
+
+    Rect::from((50,50,10,10))
   }
 }

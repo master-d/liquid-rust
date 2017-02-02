@@ -6,8 +6,10 @@ use liquidfun::box2d::dynamics::world::*;
 use liquidfun::box2d::collision::shapes;
 
 use sdl2::rect::{Rect,Point};
+use sdl2::pixels::Color;
 
 use coords::Coords;
+use coords::ConvertToRect;
 use wrsdl::WrSdl;
 
 pub struct BoxDef {
@@ -20,7 +22,7 @@ pub struct BoxDef {
 impl Default for BoxDef {
     fn default() -> BoxDef {
         BoxDef {
-            pos: (0.0,0.0), size: 10.0, density: 1.0, friction: 0.3, restitution: 0.2
+            pos: (0.0,0.0), size: 0.5, density: 1.0, friction: 0.3, restitution: 0.2
         }
     }
 }
@@ -81,14 +83,22 @@ impl LFWorld {
                         for x in 0..shape.get_vertex_count() {
                             xyvec.push(Coords::new(shape.get_vertex(x)));
                         }
+                        
                     },
                     _ => {}
                 }
             }
             None => {}
         }
-        
-        ctx.renderer.draw_rect(xyvec.to_rect());
+        ctx.renderer.set_draw_color(Color::RGB(255,0,0));
+        // draw a line between all the points we grabbed from the polygon
+        let offset = Coords::new(body.get_position());
+        let pstart = xyvec[0].get_sdl_point(&offset);
+        for x in 1..xyvec.len() {
+            let pend = xyvec[x].get_sdl_point(&offset);
+            ctx.renderer.draw_line(pstart,pend);
+            let pstart = pend;
+        }
     }
     pub fn test(&mut self) {
 
