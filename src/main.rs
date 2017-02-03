@@ -24,6 +24,7 @@ fn main() {
     let slp_millis = time::Duration::from_millis((time_step*1000.0) as u64);
 
     let body = lfw.create_box(&BoxDef { pos: (50.0,30.0), ..Default::default() });
+    let body2 = lfw.create_box(&BoxDef { pos: (50.5,40.0), ..Default::default() });
 
     loop {
         ctx.events.pump();
@@ -44,6 +45,7 @@ fn main() {
         ctx.renderer.set_draw_color(Color::RGBA(0,0,0,50));
         ctx.renderer.clear();
         lfw.draw_body(&body, &mut ctx);
+        lfw.draw_body(&body2, &mut ctx);
         ctx.renderer.present();
         // draw the box body in sdl
         

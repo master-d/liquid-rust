@@ -67,7 +67,6 @@ impl LFWorld {
         fixture_def.friction = bdef.friction;
         // set the bounciness of the box
         fixture_def.restitution = bdef.restitution;
-        
         // Add the shape to the body.
         body.create_fixture(&fixture_def);
         body
@@ -93,11 +92,17 @@ impl LFWorld {
         ctx.renderer.set_draw_color(Color::RGB(255,0,0));
         // draw a line between all the points we grabbed from the polygon
         let offset = Coords::new(body.get_position());
-        let pstart = xyvec[0].get_sdl_point(&offset);
-        for x in 1..xyvec.len() {
-            let pend = xyvec[x].get_sdl_point(&offset);
-            ctx.renderer.draw_line(pstart,pend);
-            let pstart = pend;
+        let veclen = xyvec.len();
+        for x in 0..xyvec.len() {
+            let idx = ((x % veclen) + veclen) % veclen;
+            let pstart = xyvec[idx].get_sdl_point(&offset);
+            if x+1 == veclen {
+                let pend = xyvec[0].get_sdl_point(&offset);
+                ctx.renderer.draw_line(pstart,pend);
+            } else {
+                let pend = xyvec[idx+1].get_sdl_point(&offset);
+                ctx.renderer.draw_line(pstart,pend);
+            }
         }
     }
     pub fn test(&mut self) {
@@ -121,7 +126,7 @@ impl LFWorld {
         
 		let angle = body.get_angle();
 
-        println!("{:?} angle: {:?}", position.convert(), angle);
+        println!("{:?} angle: {:?}", position.converti(), angle);
 	}
     }        
 }

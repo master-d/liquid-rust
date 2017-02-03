@@ -16,7 +16,7 @@ impl Coords<f32> {
       y: v.y
     }
   }
-  pub fn convert(&self) -> Coords<u32> {
+  pub fn convertu(&self) -> Coords<u32> {
     let x = self.x*10.0;
     let y = self.y*10.0;
     Coords {
@@ -24,12 +24,22 @@ impl Coords<f32> {
       y: y as u32
     }
   }
+  pub fn converti(&self) -> Coords<i32> {
+    let x = self.x*10.0;
+    let y = self.y*10.0;
+    Coords {
+      x: x as i32,
+      y: y as i32
+    }
+  }
   pub fn get_sdl_point(&self, offset: &Coords<f32>) -> Point {
-    let self_pixels = self.convert();
-    let offset_pixels = offset.convert();
+    let self_pixels = self.converti();
+    let offset_pixels = offset.converti();
+    //println!("self {:?} pixels {:?}",self, self_pixels);
+    //println!("offset {:?} pixels {:?}",offset, offset_pixels);
     let x = offset_pixels.x + self_pixels.x;
     let y = offset_pixels.y + self_pixels.y;
-    Point::new(x as i32,y as i32)
+    Point::new(x, y)
   }
 }
 impl Coords<u32> {
