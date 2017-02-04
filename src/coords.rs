@@ -10,7 +10,10 @@ pub struct Coords<T> {
   pub y: T
 }
 impl Coords<f32> {
-  pub fn new(v: &Vec2) -> Coords<f32> {
+  pub fn new(x: f32, y: f32) -> Coords<f32> {
+    Coords { x: x, y: y }
+  }
+  pub fn from_vec(v: &Vec2) -> Coords<f32> {
     Coords {
       x: v.x,
       y: v.y
