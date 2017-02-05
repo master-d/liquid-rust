@@ -47,7 +47,8 @@ impl Events {
 pub struct WrSdl<'window> {
     ctx: Sdl,
 	pub renderer: Renderer<'window>,
-    pub events: Events
+    pub events: Events,
+    pub resolution: (u32, u32)
 }
 impl<'window> WrSdl<'window> {
     pub fn new(resolution: (u32,u32)) -> WrSdl<'window> {
@@ -60,7 +61,8 @@ impl<'window> WrSdl<'window> {
         WrSdl {
             ctx: ctx,
             renderer: renderer,
-            events: events
+            events: events,
+            resolution: resolution
         }
     }
     
