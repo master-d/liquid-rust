@@ -33,10 +33,12 @@ impl Events {
                 Event::Quit { .. } => self.quit = true,
                 Event::KeyDown { keycode, .. } => match keycode {
                     Some(Escape) => self.key_escape = true,
+                    Some(Space) => self.key_space = true,
                     _ => {}
                 },
                 Event::KeyUp { keycode, .. } => match keycode {
                     Some(Escape) => self.key_escape = false,
+                    Some(Space) => self.key_space = false,
                     _ => {}
                 },
                 _ => {}

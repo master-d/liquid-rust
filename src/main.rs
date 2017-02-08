@@ -30,20 +30,22 @@ fn main() {
     let slp_millis = time::Duration::from_millis((time_step*1000.0) as u64);
 
     // add ground body to bvec
-    bvec.push(ctx.lf.create_ground(resolution.0 as f32));
-    for x in 0u32..9u32 {
-        let y = x +50;
-        let mut bdef = BoxDef { pos: (y as f32,50.0), w: 2.0, h: 2.0,
-        ..Default::default() };
-        let body = ctx.lf.create_body(&bdef);
-        bdef.set_body(body);
-        bvec.push(bdef);
-    }
+    bvec.push(ctx.lf.create_ground(resolution.0 as f32/5.0 as f32));
 
     loop {
         ctx.sdl.events.pump();
         if ctx.sdl.events.quit | ctx.sdl.events.key_escape {
             break;
+        } 
+        else if ctx.sdl.events.key_space {
+            for x in 0u32..9u32 {
+                let y = x +50;
+                let mut bdef = BoxDef { pos: (y as f32,50.0), w: 2.0, h: 2.0,
+                ..Default::default() };
+                let body = ctx.lf.create_body(&bdef);
+                bdef.set_body(body);
+                bvec.push(bdef);
+            }
         }
         // clear the screen
         ctx.sdl.renderer.set_draw_color(Color::RGBA(0,0,0,50));

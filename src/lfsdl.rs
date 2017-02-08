@@ -18,7 +18,7 @@ impl <'window> LfSdl<'window> {
         match bdef.body {
             Some(ref body) => {
                 let center = Coords::from_vec(body.get_position()).converti();
-                let center_y = self.sdl.resolution.1 as i32-center.y as i32;
+                let center_y = self.sdl.resolution.1 as i32 - center.y as i32;
                 let wh = Coords::new(bdef.w,bdef.h).convertu();
                 let rect: Rect = Rect::new(center.x,center_y, wh.x, wh.y);
                 self.sdl.renderer.draw_rect(rect);
@@ -82,12 +82,3 @@ impl Coords<u32> {
   }
 }
 
-pub trait ConvertToRect {
-  fn to_rect(&self) -> Rect;
-}
-impl ConvertToRect for Vec<Coords<f32>> {
-  fn to_rect(&self) -> Rect {
-
-    Rect::from((50,50,10,10))
-  }
-}

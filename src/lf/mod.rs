@@ -72,7 +72,7 @@ impl LFWorld {
     }
     pub fn create_ground(&mut self, width: f32) ->BoxDef {
         let mut gdef = BoxDef { 
-            pos: (0.0,1.0), 
+            pos: (1.0,1.0), 
             w: width, 
             h: 0.2, 
             color: (0,255,0),
