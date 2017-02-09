@@ -1,10 +1,9 @@
 use std::path::Path;
 
-use sdl2::pixels::Color;
+use sdl2::pixels::{Color,PixelFormatEnum};
 use sdl2::event::Event;
-use sdl2::rect::Rect;
-use sdl2::rect::Point;
-use sdl2::render::Renderer;
+use sdl2::rect::{Rect,Point};
+use sdl2::render::{Renderer,TextureAccess,Texture};
 use sdl2::timer::Timer;
 use sdl2::{ Sdl, EventPump };
 use sdl2::video::Window; 
@@ -50,7 +49,8 @@ pub struct WrSdl<'window> {
     ctx: Sdl,
 	pub renderer: Renderer<'window>,
     pub events: Events,
-    pub resolution: (u32, u32)
+    pub resolution: (u32, u32),
+    pub texture: Texture
 }
 impl<'window> WrSdl<'window> {
     pub fn new(resolution: (u32,u32)) -> WrSdl<'window> {
@@ -59,12 +59,15 @@ impl<'window> WrSdl<'window> {
         let window = video_subsystem.window("sdl2", resolution.0, resolution.1).position_centered().build().unwrap();
         let mut renderer = window.renderer().accelerated().build().unwrap();
         let events = Events::new(ctx.event_pump().unwrap());
-
+        let mut texture = renderer.create_texture(PixelFormatEnum::RGBA8888,TextureAccess::Static,10,10).unwrap();
+        //texture.set_draw_color(Color::RGB(255,0,0));
+        texture.set_color_mod(255,0,0);
         WrSdl {
             ctx: ctx,
             renderer: renderer,
             events: events,
-            resolution: resolution
+            resolution: resolution,
+            texture: texture
         }
     }
     

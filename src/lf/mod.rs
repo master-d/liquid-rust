@@ -24,8 +24,8 @@ pub struct BoxDef {
 impl Default for BoxDef {
     fn default() -> BoxDef {
         BoxDef {
-            pos: (0.0,0.0), w: 2.0, h: 2.0, density: 1.0, 
-            friction: 0.3, restitution: 0.1, dynamic: true,
+            pos: (0.0,0.0), w: 2.0, h: 2.0, density: 0.1, 
+            friction: 0.5, restitution: 0.1, dynamic: true,
             color: (225,225,225), body: None
         }
     }
@@ -70,10 +70,10 @@ impl LFWorld {
         body.create_fixture(&fixture_def);
         body
     }
-    pub fn create_ground(&mut self, width: f32) ->BoxDef {
+    pub fn create_ground(&mut self, width: u32) ->BoxDef {
         let mut gdef = BoxDef { 
-            pos: (1.0,1.0), 
-            w: width, 
+            pos: (width as f32/20.0,1.0), 
+            w: width as f32/10.0, 
             h: 0.2, 
             color: (0,255,0),
             dynamic: false, ..Default::default() 

@@ -7,21 +7,27 @@ use lf::LFWorld;
 use wrsdl::WrSdl;
 use lf::BoxDef;
 
+static PPM: u32 = 10;
+
 pub struct LfSdl<'window> {
   pub lf: LFWorld,
   pub sdl: WrSdl<'window>
 }
 impl <'window> LfSdl<'window> {
       pub fn draw_body(&mut self, bdef: &BoxDef) {
-        let (r,g,b) = bdef.color;
-        self.sdl.renderer.set_draw_color(Color::RGB(r,g,b));
+        //self.sdl.renderer.set_draw_color(Color::RGB(r,g,b));
         match bdef.body {
             Some(ref body) => {
+                let (r,g,b) = bdef.color;
+                self.sdl.texture.set_color_mod(r,g,b);
+
                 let center = Coords::from_vec(body.get_position()).converti();
                 let center_y = self.sdl.resolution.1 as i32 - center.y as i32;
                 let wh = Coords::new(bdef.w,bdef.h).convertu();
                 let rect: Rect = Rect::new(center.x,center_y, wh.x, wh.y);
-                self.sdl.renderer.draw_rect(rect);
+                let center_pt = Point::new(wh.x as i32, wh.y as i32);
+                let angle = 360f64-(body.get_angle()as f64*180f64)/::std::f64::consts::PI;
+                self.sdl.renderer.copy_ex(&self.sdl.texture, None, Some(rect), angle as f64,None,false,false);
             },
             _ =>  println!("No body found")
         }
@@ -46,16 +52,16 @@ impl Coords<f32> {
     }
   }
   pub fn convertu(&self) -> Coords<u32> {
-    let x = self.x*5.0;
-    let y = self.y*5.0;
+    let x = self.x*PPM as f32;
+    let y = self.y*PPM as f32;
     Coords {
       x: x as u32,
       y: y as u32
     }
   }
   pub fn converti(&self) -> Coords<i32> {
-    let x = self.x*5.0;
-    let y = self.y*5.0;
+    let x = self.x*PPM as f32;
+    let y = self.y*PPM as f32;
     Coords {
       x: x as i32,
       y: y as i32
@@ -73,8 +79,8 @@ impl Coords<f32> {
 }
 impl Coords<u32> {
   pub fn convert(&self) -> Coords<f32> {
-    let x = self.x/5;
-    let y = self.y/5;
+    let x = self.x/PPM;
+    let y = self.y/PPM;
     Coords {
       x: x as f32,
       y: y as f32
