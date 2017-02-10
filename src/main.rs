@@ -34,6 +34,8 @@ fn main() {
 
     // add ground body to bvec
     bvec.push(ctx.lf.create_ground(resolution.0));
+    // draw dam
+    bvec.append(&mut ctx.lf.create_dam(50.0));
 
     loop {
         ctx.sdl.events.pump();
@@ -43,7 +45,7 @@ fn main() {
         else if ctx.sdl.events.key_space {
             
             let mut bdef = BoxDef { pos: (50.0,50.0), w: 2.0, h: 2.0,
-                color: (rng.gen::<u8>(),rng.gen::<u8>(),rng.gen::<u8>()),
+                //color: (rng.gen::<u8>(),rng.gen::<u8>(),rng.gen::<u8>()),
                 ..Default::default() 
             };
             let body = ctx.lf.create_body(&bdef);
@@ -51,8 +53,8 @@ fn main() {
             bvec.push(bdef);
         }
         // clear the screen
-        //ctx.sdl.renderer.set_draw_color(Color::RGB(0,0,0));
-        ctx.sdl.renderer.set_draw_color(Color::RGB(255,255,255));
+        ctx.sdl.renderer.set_draw_color(Color::RGB(0,0,0));
+        //ctx.sdl.renderer.set_draw_color(Color::RGB(255,255,255));
         ctx.sdl.renderer.clear();
         // Instruct the world to perform a single step of simulation.
         // It is generally best to keep the time step and iterations fixed.

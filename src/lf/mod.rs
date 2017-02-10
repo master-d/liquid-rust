@@ -74,13 +74,31 @@ impl LFWorld {
         let mut gdef = BoxDef { 
             pos: (width as f32/20.0,1.0), 
             w: width as f32/10.0, 
-            h: 0.2, 
+            h: 1.0, 
             color: (0,255,0),
             dynamic: false, ..Default::default() 
         };
         let ground = self.create_body(&gdef);
         gdef.set_body(ground);
         gdef
+    }
+    pub fn create_dam(&mut self, xpos: f32) -> Vec<BoxDef> {
+        let mut damn = Vec::new();
+        for x in 0..11 {
+            for y in x..11 {
+                let mut bdef = BoxDef{ 
+                    pos: (xpos+2.0*x as f32, 2.0*x as f32),
+                    w: 2.0,
+                    h: 2.0,
+                    restitution: 0.0,
+                    ..Default::default()
+                };
+                let body = self.create_body(&bdef);
+                bdef.set_body(body);
+                damn.push(bdef);
+            }
+        }
+        damn
     }
 
 }
