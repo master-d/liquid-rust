@@ -1,6 +1,7 @@
 use liquidfun::box2d::common::math::Vec2;
 use sdl2::rect::{Rect,Point};
 use sdl2::pixels::Color;
+use sdl2::gfx::primitives::DrawRenderer;
 use std::num;
 
 use lf::LFWorld;
@@ -18,8 +19,8 @@ impl <'window> LfSdl<'window> {
         //self.sdl.renderer.set_draw_color(Color::RGB(r,g,b));
         match bdef.body {
             Some(ref body) => {
-                let (r,g,b) = bdef.color;
-                self.sdl.texture.set_color_mod(r,g,b);
+                //let (r,g,b) = bdef.color;
+                //self.sdl.texture.set_color_mod(r,g,b);
 
                 let center = Coords::from_vec(body.get_position()).converti();
                 let center_y = self.sdl.resolution.1 as i32 - center.y as i32;
@@ -31,6 +32,26 @@ impl <'window> LfSdl<'window> {
             },
             _ =>  println!("No body found")
         }
+    }
+    pub fn draw_particle_as_box(&mut self, pos: &Vec2) {
+      //self.sdl.renderer.set_draw_color(Color::RGB(0,50,255));
+      let center = Coords::from_vec(pos).converti();
+      let center_y = self.sdl.resolution.1 as i32 - center.y as i32;
+      let wh = Coords{ x: 3, y: 3 };
+      let clip: Rect = Rect::new(40,0, wh.x, wh.y);
+      let rect: Rect = Rect::new(center.x,center_y, wh.x, wh.y);
+      let center_pt = Point::new(wh.x as i32, wh.y as i32);
+      self.sdl.renderer.copy(&self.sdl.texture, Some(clip), Some(rect));
+    }
+    pub fn draw_particle(&mut self, pos: &Vec2) {
+      let center = Coords::from_vec(pos).converti();
+      let center_y = self.sdl.resolution.1 as i32 - center.y as i32;
+      self.sdl.renderer.circle(
+        center.x as i16,
+        center_y as i16,
+        1,
+        Color::RGB(0,50,255));
+
     }
 }
 

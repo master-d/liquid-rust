@@ -34,8 +34,12 @@ fn main() {
 
     // add ground body to bvec
     bvec.push(ctx.lf.create_ground(resolution.0));
+    // add back wall to bvec
+    bvec.push(ctx.lf.create_back_wall(resolution.0));
     // draw dam
-    bvec.append(&mut ctx.lf.create_dam(50.0));
+    bvec.append(&mut ctx.lf.create_dam(40.0));
+    // create liquid behind the dam
+    ctx.lf.create_liquid();
 
     loop {
         ctx.sdl.events.pump();
@@ -45,6 +49,7 @@ fn main() {
         else if ctx.sdl.events.key_space {
             
             let mut bdef = BoxDef { pos: (50.0,50.0), w: 2.0, h: 2.0,
+                density: 100.0,
                 //color: (rng.gen::<u8>(),rng.gen::<u8>(),rng.gen::<u8>()),
                 ..Default::default() 
             };
@@ -60,12 +65,22 @@ fn main() {
         // It is generally best to keep the time step and iterations fixed.
         ctx.lf.world.step(time_step, velocity_iterations, position_iterations);
         thread::sleep(slp_millis);
-        
+
+        // draw each body in bvec2 using sdl
         for bdef in &bvec {
-            // Now print the position and angle of the body.
             ctx.draw_body(&bdef);
         }
+        // draw all particles in particle system
+        match ctx.lf.world.get_particle_system_list() {
+            Some(ps) => {
+                for pos in ps.get_position_buffer() {
+                    ctx.draw_particle(pos);
+                }
+            },
+            None => {}
+        }
+        // sdl print
         ctx.sdl.renderer.present();
-        
+
     }
 }

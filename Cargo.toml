@@ -4,6 +4,10 @@ version = "0.1.0"
 authors = ["yi <goodeveningthisisrobrichards@gmail.com>"]
 
 [dependencies]
-sdl2 = { version = "~0.28.0" }
 liquidfun = "*"
 rand = "*"
+
+[dependencies.sdl2]
+version = "*"
+default-features = false
+features = ["gfx"]

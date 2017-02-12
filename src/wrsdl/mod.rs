@@ -23,7 +23,7 @@ impl<'window> WrSdl<'window> {
         let window = video_subsystem.window("sdl2", resolution.0, resolution.1).position_centered().build().unwrap();
         let mut renderer = window.renderer().accelerated().build().unwrap();
         let events = Events::new(ctx.event_pump().unwrap());
-        let surface = surface::Surface::load_bmp("/home/raricha/git/liquid-rust/src/assets/bricks.bmp").unwrap();
+        let surface = surface::Surface::load_bmp("/home/yi/git/liquid-rust/src/assets/bricks.bmp").unwrap();
         let mut texture = renderer.create_texture_from_surface(surface).unwrap(); //().unwrap();
         //let mut texture = renderer.create_texture(PixelFormatEnum::RGBA8888,TextureAccess::Static,10,10).unwrap();
         //texture.set_draw_color(Color::RGB(255,0,0));
