@@ -10,9 +10,11 @@ that this has not been ported to rust yet, but it is still required as a depende
 of the application.
 
 example for gentoo Linux:
-`emerge -av rust-bin cargo sdl2-gfx`
-`cd /directory/of/git/clone`
-`cargo build --release`
+```shell
+emerge -av rust-bin cargo sdl2-gfx
+cd /directory/of/git/clone
+cargo build --release
+```
 
 --binaries will be stored in ./target/release 
 ### Status
