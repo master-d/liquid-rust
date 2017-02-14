@@ -48,7 +48,7 @@ fn main() {
         } 
         else if ctx.sdl.events.key_space {
             
-            let mut bdef = BoxDef { pos: (50.0,50.0), w: 2.0, h: 2.0,
+            let mut bdef = BoxDef { pos: (55.0,250.0), w: 2.0, h: 2.0,
                 density: 100.0,
                 //color: (rng.gen::<u8>(),rng.gen::<u8>(),rng.gen::<u8>()),
                 ..Default::default() 
@@ -74,6 +74,7 @@ fn main() {
         match ctx.lf.world.get_particle_system_list() {
             Some(ps) => {
                 for pos in ps.get_position_buffer() {
+                    //ctx.draw_particle_as_box(pos);
                     ctx.draw_particle(pos);
                 }
             },

@@ -78,8 +78,8 @@ impl LFWorld {
     }
     pub fn create_ground(&mut self, width: u32) ->BoxDef {
         let mut gdef = BoxDef { 
-            pos: (width as f32/20.0,1.0), 
-            w: width as f32/10.0, 
+            pos: (width as f32/20.0,0.0), 
+            w: width as f32/5.0, 
             h: 1.0, 
             color: (0,255,0),
             dynamic: false, ..Default::default() 
@@ -90,9 +90,9 @@ impl LFWorld {
     }
     pub fn create_back_wall(&mut self, width: u32) ->BoxDef {
         let mut bw = BoxDef { 
-            pos: (width as f32/10.0,0.0), 
-            w: 1.0, 
-            h: 50.0, 
+            pos: (width as f32/8.0,30.0), 
+            w: 2.0, 
+            h: 80.0, 
             color: (0,255,0),
             dynamic: false, ..Default::default() 
         };
@@ -124,7 +124,7 @@ impl LFWorld {
     }
     pub fn create_liquid(&mut self) {
         let psystemdef = ParticleSystemDef {
-            radius: 0.3,
+            radius: 0.2,
             ..Default::default()
         };
 	    let psystem: ParticleSystem = self.world.create_particle_system(&psystemdef);
@@ -132,15 +132,16 @@ impl LFWorld {
         let mut pdef: ParticleDef = ParticleDef {
             color: ParticleColor::new(0,25,255,50),
             flags: WATER_PARTICLE|TENSILE_PARTICLE,
+            //flags: WATER_PARTICLE,
             //group: Option<ParticleGroup>
             //lifetime: f32
             //velocity: Vec2
             position: Vec2::new(50.0,50.0), 
             ..Default::default()
         };
-        for x in 1..2000 {
+        for x in 1..10000 {
             let fx = x as f32;
-            pdef.position = Vec2::new(65.0+(fx%15.0),fx/50.0);
+            pdef.position = Vec2::new(62.0+(fx%20.0),fx/100.0);
             psystem.create_particle(&pdef);
         }
     }
