@@ -104,7 +104,7 @@ impl LFWorld {
         let mut damn = Vec::new();
         for x in 0..11 {
             for y in x..11 {
-                if (x != 10 || y !=10) {
+                if x != 10 || y != 10 {
                 let mut bdef = BoxDef{ 
                     pos: (xpos+2.0*y as f32, 2.0*x as f32),
                     w: 2.0,
