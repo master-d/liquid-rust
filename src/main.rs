@@ -22,7 +22,8 @@ fn main() {
     
     let mut ctx = lfsdl::LfSdl {
         sdl: wrsdl,
-        lf: lfw 
+        lf: lfw,
+        ppm: 10 //pixels per meter
     };
     let mut bvec: Vec<BoxDef> = Vec::new();
 
@@ -56,6 +57,12 @@ fn main() {
             let body = ctx.lf.create_body(&bdef);
             bdef.set_body(body);
             bvec.push(bdef);
+        }
+        else if ctx.sdl.events.key_lbracket {
+            ctx.inc_ppm();
+        }
+        else if ctx.sdl.events.key_rbracket {
+            ctx.dec_ppm();
         }
         // clear the screen
         ctx.sdl.renderer.set_draw_color(Color::RGB(0,0,0));

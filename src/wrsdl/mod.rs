@@ -43,7 +43,9 @@ pub struct Events {
     pump: EventPump,
     pub quit: bool,
     pub key_escape: bool,
-    pub key_space: bool
+    pub key_space: bool,
+    pub key_lbracket: bool,
+    pub key_rbracket: bool
 }
 impl Events {
     pub fn new(pump: EventPump) -> Events {
@@ -51,7 +53,9 @@ impl Events {
             pump: pump,
             quit: false,
             key_escape: false,
-            key_space: false
+            key_space: false,
+            key_lbracket: false,
+            key_rbracket: false
         }
     }
     pub fn pump(&mut self) {
@@ -63,11 +67,15 @@ impl Events {
                 Event::KeyDown { keycode, .. } => match keycode {
                     Some(Escape) => self.key_escape = true,
                     Some(Space) => self.key_space = true,
+                    Some(LeftBracket) => self.key_lbracket = true,
+                    Some(RightBracket) => self.key_rbracket = true,
                     _ => {}
                 },
                 Event::KeyUp { keycode, .. } => match keycode {
                     Some(Escape) => self.key_escape = false,
                     Some(Space) => self.key_space = false,
+                    Some(LeftBracket) => self.key_lbracket = false,
+                    Some(RightBracket) => self.key_rbracket = false,
                     _ => {}
                 },
                 _ => {}

@@ -139,9 +139,9 @@ impl LFWorld {
             position: Vec2::new(50.0,50.0), 
             ..Default::default()
         };
-        for x in 1..10000 {
+        for x in 1..12000 {
             let fx = x as f32;
-            pdef.position = Vec2::new(62.0+(fx%20.0),fx/100.0);
+            pdef.position = Vec2::new(62.0+(fx%35.0),fx/500f32);
             psystem.create_particle(&pdef);
         }
     }
