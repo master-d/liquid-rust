@@ -1,3 +1,4 @@
+
 use std::path::Path;
 
 use sdl2::pixels::{Color,PixelFormatEnum};
@@ -6,15 +7,19 @@ use sdl2::rect::{Rect,Point};
 use sdl2::render::{Renderer,TextureAccess,Texture};
 use sdl2::timer::Timer;
 use sdl2::{ Sdl, EventPump, surface };
-use sdl2::video::Window; 
+use sdl2::video::Window;
+use sdl2::audio::{AudioCallback, AudioSpecDesired,AudioSpecWAV,AudioCVT};
 use std::time::Duration;
+
+use sound;
 
 pub struct WrSdl<'window> {
     ctx: Sdl,
 	pub renderer: Renderer<'window>,
     pub events: Events,
     pub resolution: (u32, u32),
-    pub texture: Texture
+    pub texture: Texture,
+    pub audio: Sound
 }
 impl<'window> WrSdl<'window> {
     pub fn new(resolution: (u32,u32)) -> WrSdl<'window> {
@@ -33,7 +38,8 @@ impl<'window> WrSdl<'window> {
             renderer: renderer,
             events: events,
             resolution: resolution,
-            texture: texture
+            texture: texture,
+            audio: Sound { ..Default::default() }
         }
     }
     

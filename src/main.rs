@@ -5,6 +5,8 @@ extern crate rand;
 mod wrsdl;
 mod lf;
 mod lfsdl;
+mod sound;
+
 
 use rand::Rng;
 use liquidfun::box2d::dynamics::body::Body;
