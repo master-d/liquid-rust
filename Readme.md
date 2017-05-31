@@ -1,5 +1,5 @@
 # Liquid Rust
-liquid-rust is based on an old commodore 64 game written using in Rust.  
+liquid-rust is based on an old commodore 64 game written in Rust.  
 It uses google's liqid fun crate to simulate 2d physics for rigid objects like 
 the dam and liquid physics for the water behind the dam.  It also uses SDL2 to 
 render objects created in the box2d world using opengl
